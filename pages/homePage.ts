@@ -32,7 +32,11 @@ class HomePage {
   }
 
   async getCurrentTheme(): Promise<string> {
-    return (await this.page.locator("html").getAttribute("class")) || "";
+    return await this.page.evaluate(() =>
+      getComputedStyle(document.documentElement).getPropertyValue(
+        "color-scheme"
+      )
+    );
   }
 
   getLoadMoreButton(): Locator {

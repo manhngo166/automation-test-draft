@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import HomePage from "./homePage";
+import HomePage from "~/pages/homePage";
 
 let homePage: HomePage;
 test.beforeEach(async ({ page }) => {
@@ -38,7 +38,7 @@ test.describe("Action in header", () => {
     expect(currentPath).toBe("/");
   });
 
-  test("Should toggle theme between dark and light", async () => {
+  test.describe("Should toggle theme between dark and light", () => {
     const themeMap: Record<string, string> = {
       dark: "light",
       light: "dark",
@@ -55,8 +55,17 @@ test.describe("Action in header", () => {
       expect(newTheme).toBe(expectedTheme);
     };
 
-    await toggleTheme();
-    await toggleTheme();
+    test("(Default is light)", async () => {
+      await homePage.page.emulateMedia({ colorScheme: "light" });
+      await toggleTheme();
+      await toggleTheme();
+    });
+
+    test("(Default is dark)", async () => {
+      await homePage.page.emulateMedia({ colorScheme: "dark" });
+      await toggleTheme();
+      await toggleTheme();
+    });
   });
 });
 /*  --- End header --- */
