@@ -1,45 +1,58 @@
 import { type Page, type Locator } from "@playwright/test";
+import CorePage from "./core";
 
-class HomePage {
-  readonly page: Page;
+interface Post {
+  title: string;
+  writtenBy: string;
+  publishedOn: string;
+  fileUnder: string;
+}
 
+class HomePage extends CorePage {
   constructor(page: Page) {
-    this.page = page;
+    super(page);
   }
 
-  getHeaderElement(): Locator {
-    return this.page.locator("header");
-  }
-
-  getLogoHeaderLink(): Locator {
-    return this.getHeaderElement().locator("a");
-  }
-
-  getToggleDarkThemeButton(): Locator {
-    return this.page.locator('button[aria-label="Toggle dark mode"]');
-  }
-
-  getFooterElement(): Locator {
-    return this.page.locator(".w-full.container.max-w-6xl.px-5.self-center");
-  }
-
-  getLogoFooterLink(): Locator {
-    return this.getFooterElement().locator("a");
-  }
-
-  async getPageTitle(): Promise<string> {
-    return await this.page.title();
-  }
-
-  async getCurrentTheme(): Promise<string> {
-    return await this.page.evaluate(() =>
-      getComputedStyle(document.documentElement).getPropertyValue(
-        "color-scheme"
-      )
+  public async getOverviewPostElement(): Promise<Locator> {
+    await this.page.waitForSelector(
+      ".container.mx-auto.flex.flex-col.max-w-6xl.px-4.md\\:px-6 > .relative > img"
+    );
+    return this.page.locator(
+      ".container.mx-auto.flex.flex-col.max-w-6xl.px-4.md\\:px-6 > .relative"
     );
   }
 
-  getLoadMoreButton(): Locator {
+  public async getOverviewPostData(): Promise<Post> {
+    const overViewElement = await this.getOverviewPostElement();
+
+    const title =
+      (await overViewElement
+        .locator(".text-2xl.font-semibold.mb-2")
+        .textContent()) || "";
+    const writtenBy =
+      (await overViewElement
+        .locator("span", { hasText: "Written by" })
+        .locator("~div .text-sm.font-semibold")
+        .textContent()) || "";
+    const publishedOn =
+      (await overViewElement
+        .locator("span", {
+          hasText: "Published on",
+        })
+        .locator("~span")
+        .textContent()) || "";
+    const fileUnder =
+      (await overViewElement
+        .locator("span", {
+          hasText: "File under",
+        })
+        .locator("~div .inline-flex.items-center.rounded-full")
+        .textContent()) || "";
+
+    return { title, writtenBy, publishedOn, fileUnder };
+  }
+
+  public getLoadMoreButton(): Locator {
     return this.page.locator("button", { hasText: "Load more" });
   }
 }
