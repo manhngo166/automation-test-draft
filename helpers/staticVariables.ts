@@ -8,4 +8,7 @@ export const StaticVariables = {
   updatedProjectDesc: 'Updated Project des Auto',
   updatedTaskTitle: 'Updated Task Title',
   updatedTaskDesc: 'Updated Task Desc',
+  inprogressStatus: 'IN_PROGRESS',
+  todoStatus: 'TODO',
+  completedStatus: 'COMPLETED',
 };
