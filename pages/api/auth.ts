@@ -25,9 +25,9 @@ class auth{
         request: APIRequestContext) {
         const newRegister = await request.post(StaticVariables.apiURL + '/api/auth/register', {
             data: {
-                email: email,
-                username: username,
-                password: password,
+                email: 'Auto_email_' + Date.now() + '@autotestmail.com',
+                username: 'Auto User Name',
+                password: '12345678',
             }
         });
         expect(newRegister.status()).toBe(201);
@@ -38,8 +38,8 @@ class auth{
         request: APIRequestContext) {
         const newResetPassword = await request.post(StaticVariables.apiURL + '/api/auth/reset-password', {
             data: {
-                email: email,
-                newPassword: newPassword,
+                email: 'Auto_email_' + Date.now() + '@vmotester.com',
+                newPassword: '12345678a',
             }
         });
         expect(newResetPassword.status()).toBe(201);
@@ -50,8 +50,8 @@ class auth{
         request: APIRequestContext) {
         const newChangeEmail = await request.post(StaticVariables.apiURL + '/api/auth/change-email', {
             data: {
-                email: newEmail,
-                password: password,
+                email: 'Auto_email_' + Date.now() + '@vmotester.com',
+                password: '12345678',
             }
         });
         expect(newChangeEmail.status()).toBe(201);

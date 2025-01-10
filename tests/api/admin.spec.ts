@@ -3,7 +3,6 @@ import auth from '~/pages/api/auth';
 import project from '~/pages/api/project';
 import { StaticVariables } from '~/helpers/staticVariables';
 import task from '~/pages/api/task';
-import { title } from 'process';
 
 let token: string;
 let userId: string;
