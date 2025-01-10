@@ -1,33 +1,24 @@
-import { test, expect } from "@playwright/test";
-import DetailPage from "~/pages/detailPage";
+import { test, expect } from '@playwright/test';
+import DetailPage from '~/pages/detailPage';
 
-const examplePage =
-  "/post/the-impact-of-technology-on-the-workplace-how-technology-is-changing-1734887716925";
+const path = '/post/the-impact-of-technology-on-the-workplace-how-technology-is-changing-1734887716925';
+const pathCommentEndpoint = 'api/comment/get-all-comment-blog';
 
-let detailPage: DetailPage;
-test.beforeEach(async ({ page }) => {
-  detailPage = new DetailPage(page);
-  await page.goto(examplePage);
+let page: DetailPage;
+test.beforeEach(async ({ page: pageParam }) => {
+  page = new DetailPage(pageParam);
+  await pageParam.goto(path);
 });
 
-async function countComments() {
-  const response = await detailPage.page.waitForResponse(
-    (response) =>
-      response.url().includes("api/comment/get-all-comment-blog") &&
-      response.status() === 200
-  );
-  return (await response.json()).data.data.length;
-}
-
-test("Detail: Comment should be successful", async () => {
-  const beforeCommentCount = await countComments();
-  const textAreaElement = detailPage.getTextAreaElement();
-  const submitButtonCommentElement = detailPage.getButtonSubmitCommentElement();
+test('Comment should be successful', async () => {
+  const beforeCommentCount = (await page.waitForResponse(pathCommentEndpoint))?.data?.data?.length;
+  const textAreaElement = page.getTextAreaElement();
+  const submitButtonCommentElement = page.getButtonSubmitCommentElement();
   const comment = `att abcxyz ${new Date().getTime()}`;
   textAreaElement.fill(comment);
   submitButtonCommentElement.click();
-  const afterCommentCount = await countComments();
+  const afterCommentCount = (await page.waitForResponse(pathCommentEndpoint))?.data?.data?.length;
   expect(afterCommentCount).toBeGreaterThan(beforeCommentCount);
-  const latestComment = await detailPage.getLatestComment();
+  const latestComment = await page.getLatestComment();
   expect(latestComment).toBe(comment);
 });

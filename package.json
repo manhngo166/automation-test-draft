@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx playwright test",
-    "dev-ui": "npx playwright test --ui"
+    "install": "npx playwright install",
+    "test": "npx playwright test",
+    "test-ui": "npx playwright test --ui"
   },
   "keywords": [],
   "author": "",
