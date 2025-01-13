@@ -10,7 +10,7 @@ test.beforeEach(async ({ page: pageParam }) => {
   await pageParam.goto(path);
 });
 
-test('Comment should be successful', async () => {
+test('User can comment successfully', async () => {
   const beforeCommentCount = (await page.waitForResponse(pathCommentEndpoint))?.data?.data?.length;
   const textAreaElement = page.getTextAreaElement();
   const submitButtonCommentElement = page.getButtonSubmitCommentElement();

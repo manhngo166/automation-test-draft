@@ -10,12 +10,12 @@ test.beforeEach(async ({ page: pageParam }) => {
   await pageParam.goto(path);
 });
 
-test(`Title should be ${PAGE_TITLE}`, async () => {
+test(`Page title should be ${PAGE_TITLE}`, async () => {
   const pageTitle = await page.getPageTitle();
   expect(pageTitle).toBe(PAGE_TITLE);
 });
 
-test('Should disappeared load more button when clicked', async () => {
+test('Load more button should be disappeared after clicking', async () => {
   await page.getLoadMoreButton().click();
   const isLoadMoreBtnVisible = await page.getLoadMoreButton().isVisible();
   expect(isLoadMoreBtnVisible).toBe(false);

@@ -15,7 +15,7 @@ const themeMap: Record<string, string> = {
   light: 'dark',
 };
 
-test.describe('Header', () => {
+test.describe('Header tests', () => {
   const toggleTheme = async (): Promise<void> => {
     const currentTheme = await page.getTheme();
     if (!currentTheme) throw Error('Theme is null or undefined');
@@ -27,38 +27,38 @@ test.describe('Header', () => {
     expect(newTheme).toBe(expectedTheme);
   };
 
-  test('Should header is visible', async () => {
+  test('Header should be visible', async () => {
     const isHeaderVisible = await page.headerElement.isVisible();
     expect(isHeaderVisible).toBe(true);
   });
 
-  test('Should navigate to homepage when click logo', async () => {
+  test('User is navigated to homepage when clicking logo', async () => {
     await page.getLogoHeaderLink().click();
     await page.waitForURL('/');
     const currentPath = page.getPathName();
     expect(currentPath).toBe('/');
   });
 
-  test('toggle theme (Browser is light mode)', async () => {
+  test('Toggle theme when browser is in light mode', async () => {
     await page.useTheme(ETheme.light);
     await toggleTheme();
     await toggleTheme();
   });
 
-  test('toggle theme (Browser is dark mode)', async () => {
+  test('Toggle theme when browser is in dark mode)', async () => {
     await page.useTheme(ETheme.dark);
     await toggleTheme();
     await toggleTheme();
   });
 });
 
-test.describe('Footer', () => {
-  test('Should footer is visible', async () => {
+test.describe('Footer tests', () => {
+  test('Footer should be visible', async () => {
     const isFooterVisible = await page.footerElement.isVisible();
     expect(isFooterVisible).toBe(true);
   });
 
-  test('Should navigate to homepage when click logo', async () => {
+  test('User is navigated to homepage when clicking logo', async () => {
     await page.getLogoFooterLink().click();
     await page.waitForURL('/');
     const currentPath = page.getPathName();
