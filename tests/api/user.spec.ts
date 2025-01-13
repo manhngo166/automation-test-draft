@@ -1,86 +1,110 @@
 import { test, expect, request } from '@playwright/test';
-import auth from '~/pages/api/auth';
-import project from '~/pages/api/project';
 import { StaticVariables } from '~/helpers/staticVariables';
-import task from '~/pages/api/task';
+import auth from '~/pages/api/auth';
+import user from '~/pages/api/user';
 
+let emailAdmin = StaticVariables.emailAdmin;
+let passwordAdmin = StaticVariables.passwordAdmin;
 let token: string;
-let userId: string;
-let userIdUpdated = '6f15f979-0a25-46c6-ba1c-a1ddf59a3e97';
-// test.beforeAll('user login', async () => {
-//   const newLogin = await request.newContext();
-//   await auth.login(newLogin, StaticVariables.emailAdmin, StaticVariables.passwordAdmin);
-//   token = auth.token;
-//   userId = auth.userid;
-//   await newLogin.dispose();
-// });
-test.describe('User test', () => {
-    // let createdTaskId: string;
-    // test.beforeEach('Create Task data to test', async ({}, testInfo) => {
-    //     if (testInfo.title === 'Create task') {
-    //         console.log('Skip setup for Create tast test case');
-    //         return;
-    //     }
-    //     // Create a task
-    //     const newCreateTask = await request.newContext();
-    //     let getCreateTaskResponse = await task.createTask(newCreateTask, token);
-    //     createdTaskId = getCreateTaskResponse.data.id;
-    // })
-    // test.afterEach('Delete created Task data', async ({}, testInfo) => {
-    //     if(testInfo.title === 'Delete task' || testInfo.title === 'Create task') {
-    //         console.log('Skip cleanup data Delete tast test case');
-    //         return;
-    //     }
-    //     // Delete created task
-    //     const newDeleteTask = await request.newContext();
-    //     let getDeleteTaskResponse = await task.deleteTask(newDeleteTask, token, createdTaskId); 
-    //     await newDeleteTask.dispose();
-    // })
+let adminUserId: string;
+let userIdToAssignRole = '1a73e6e8-38b4-4348-9f8f-6097a78901f3';
+let adminRole = StaticVariables.adminRole;
+let managerRole = StaticVariables.managerRole;
+let contributorRole = StaticVariables.contributorRole;
 
-    test('User register', async () => {
-        const newRegister = await request.newContext();
-        let registerResponse = await auth.register(newRegister); 
-        expect(registerResponse).toHaveProperty('data');
-        await newRegister.dispose();
+test.describe('Admin - User tests', () => {
+    test.beforeAll('Admin login', async () => {
+        const newlogin = await request.newContext();
+        let loginResponse = await auth.login(newlogin, emailAdmin, passwordAdmin); 
+        expect(loginResponse.data).toHaveProperty('token');
+        token = loginResponse.data.token;
+        adminUserId = loginResponse.data.user.id;
+        await newlogin.dispose();
+    })
+
+    test('Admin - Get all user', async () => {
+        const newGetAllUser = await request.newContext();
+        let getAllUserResponse = await user.getAllUsers(newGetAllUser, token); 
+        expect(getAllUserResponse).toHaveProperty('data');
+        await newGetAllUser.dispose();
     });
 
-    // test('Create task', async () => {
-    //     const newCreateTask = await request.newContext();
-    //     let getCreateTaskResponse = await task.createTask(newCreateTask, token);
-    //     expect(getCreateTaskResponse.data).toHaveProperty('title');
-    //     expect(getCreateTaskResponse.data.title).toContain('Task Auto_');        
-    //     await newCreateTask.dispose();
-    // });
+    test('Admin - Get User by ID', async () => {
+        const newGetUserById = await request.newContext();
+        let getUserByIdResponse = await user.getUserById(newGetUserById, token, adminUserId); 
+        expect(getUserByIdResponse.data.id).toBe(adminUserId);
+        await newGetUserById.dispose();
+    });
 
-    // test('Update task', async () => {
-    //     // Update task
-    //     const newUpdateTask = await request.newContext();
-    //     let getUpdateTaskResponse = await task.updateTask(newUpdateTask, token, createdTaskId);
-    //     expect(getUpdateTaskResponse.data.title).toBe(StaticVariables.updatedTaskTitle);
-    //     expect(getUpdateTaskResponse.data.description).toBe(StaticVariables.updatedTaskDesc);
-    //     expect(getUpdateTaskResponse.data.status).toBe(StaticVariables.inprogressStatus);
-    //     await newUpdateTask.dispose();
-    // });
-
-    // test('Get a task by ID', async () => {
-    //     // Get deleted task
-    //     const newGetTask = await request.newContext();
-    //     let getTaskResponse = await task.getTaskById(newGetTask, token, createdTaskId); 
-    //     expect(getTaskResponse.data.id).toBe(createdTaskId);
-    //     await newGetTask.dispose();
-    // });
-
-    // test('Delete task', async () => {
-    //     // Delete created task
-    //     const newDeleteTask = await request.newContext();
-    //     let getDeleteTaskResponse = await task.deleteTask(newDeleteTask, token, createdTaskId); 
-    //     await newDeleteTask.dispose();
-    //     // Get deleted task
-    //     const newGetTask = await request.newContext();
-    //     let getTaskResponse = await task.getTaskById(newGetTask, token, createdTaskId); 
-    //     expect(getTaskResponse.data).not.toHaveProperty('id');
-    //     await newGetTask.dispose();
-    // });
-
-
+    test('Admin - Assign role to user', async () => {
+        const newAssignRole = await request.newContext();
+        let assignRoleResponse = await user.assigRoleToUser(newAssignRole, token, userIdToAssignRole, managerRole); 
+        expect(assignRoleResponse.data.id).toBe(userIdToAssignRole);
+        expect(assignRoleResponse.data.role.name).toBe(managerRole);
+        await newAssignRole.dispose();
+    });
 });
+
+test.describe('Manager - User tests', () => {
+    test.beforeAll('Manager login', async () => {
+        const newlogin = await request.newContext();
+        let loginResponse = await auth.login(newlogin, StaticVariables.emailManager, StaticVariables.passwordManager); 
+        expect(loginResponse.data).toHaveProperty('token');
+        token = loginResponse.data.token;
+        adminUserId = loginResponse.data.user.id;
+        await newlogin.dispose();
+    })
+
+    test('Manager - Get all user', async () => {
+        const newGetAllUser = await request.newContext();
+        let getAllUserResponse = await user.getAllUsers(newGetAllUser, token); 
+        expect(getAllUserResponse.statusCode).toBe(403);
+        await newGetAllUser.dispose();
+    });
+
+    test('Manager - Get User by ID', async () => {
+        const newGetUserById = await request.newContext();
+        let getUserByIdResponse = await user.getUserById(newGetUserById, token, adminUserId);
+        expect(getUserByIdResponse.statusCode).toBe(403);
+        await newGetUserById.dispose();
+    });
+
+    test('Manager - Assign role to user', async () => {
+        const newAssignRole = await request.newContext();
+        let assignRoleResponse = await user.assigRoleToUser(newAssignRole, token, userIdToAssignRole, managerRole);
+        expect(assignRoleResponse.statusCode).toBe(403);
+        await newAssignRole.dispose();
+    });
+})
+
+test.describe('Contributor - User tests', () => {
+    test.beforeAll('Contributor login', async () => {
+        const newlogin = await request.newContext();
+        let loginResponse = await auth.login(newlogin, StaticVariables.emailContributor, StaticVariables.passwordContributor);
+        expect(loginResponse.data).toHaveProperty('token');
+        token = loginResponse.data.token;
+        adminUserId = loginResponse.data.user.id;
+        await newlogin.dispose();
+    })
+
+    test('Contributor - Get all user', async () => {
+        const newGetAllUser = await request.newContext();
+        let getAllUserResponse = await user.getAllUsers(newGetAllUser, token); 
+        expect(getAllUserResponse.statusCode).toBe(403);
+        await newGetAllUser.dispose();
+    });
+
+    test('Contributor - Get User by ID', async () => {
+        const newGetUserById = await request.newContext();
+        let getUserByIdResponse = await user.getUserById(newGetUserById, token, adminUserId); 
+        expect(getUserByIdResponse.statusCode).toBe(403);
+        await newGetUserById.dispose();
+    });
+    
+    test('Contributor - Assign role to user', async () => {
+        const newAssignRole = await request.newContext();
+        let assignRoleResponse = await user.assigRoleToUser(newAssignRole, token, userIdToAssignRole, managerRole); 
+        expect(assignRoleResponse.statusCode).toBe(403);
+        await newAssignRole.dispose();
+    });
+})

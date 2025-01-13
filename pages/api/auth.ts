@@ -20,6 +20,7 @@ class auth{
         expect(responseBody.data).toHaveProperty('token');
         this.token = responseBody.data.token;
         this.userid = responseBody.data.user.id;
+        return responseBody;
     }
     async register(
         request: APIRequestContext) {
@@ -35,11 +36,18 @@ class auth{
         return responseBody;
     }
     async resetPassword(
-        request: APIRequestContext) {
+        request: APIRequestContext,
+        token: string,
+        email: string,
+        password: string) {
         const newResetPassword = await request.post(StaticVariables.apiURL + '/api/auth/reset-password', {
+            headers: {
+                accept: '*/*',
+                Authorization: `Bearer ${token}`,
+              },
             data: {
-                email: 'Auto_email_' + Date.now() + '@vmotester.com',
-                newPassword: '12345678a',
+                email: email,
+                newPassword: password,
             }
         });
         expect(newResetPassword.status()).toBe(201);
@@ -47,14 +55,21 @@ class auth{
         return responseBody;
     }
     async changeEmail(
-        request: APIRequestContext) {
-        const newChangeEmail = await request.post(StaticVariables.apiURL + '/api/auth/change-email', {
+        request: APIRequestContext,
+        token: string,
+        newEmail: string,
+        password: string) {
+        const newChangeEmail = await request.patch(StaticVariables.apiURL + '/api/auth/change-email', {
+            headers: {
+                accept: '*/*',
+                Authorization: `Bearer ${token}`,
+              },
             data: {
-                email: 'Auto_email_' + Date.now() + '@vmotester.com',
-                password: '12345678',
+                newEmail: newEmail,
+                password: password,
             }
         });
-        expect(newChangeEmail.status()).toBe(201);
+        expect(newChangeEmail.status()).toBe(200);
         let responseBody = await newChangeEmail.json();
         return responseBody;
     }
