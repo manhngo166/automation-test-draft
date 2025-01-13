@@ -1,8 +1,7 @@
 import { test, expect, request } from '@playwright/test';
 import auth from '~/pages/api/auth';
 import project from '~/pages/api/project';
-import { StaticVariables } from '~/helpers/staticVariables';
-import task from '~/pages/api/task';
+import { StaticVariables } from '~/constants';
 
 let token: string;
 let userId: string;
@@ -210,4 +209,3 @@ test.describe('Manager - Project test', () => {
     expect(getProjectById.data.id).toBe(createdProjectId);
   });
 });
-          

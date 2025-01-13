@@ -1,7 +1,6 @@
 import { test, expect, request } from '@playwright/test';
 import auth from '~/pages/api/auth';
-import project from '~/pages/api/project';
-import { StaticVariables } from '~/helpers/staticVariables';
+import { StaticVariables } from '~/constants';
 import task from '~/pages/api/task';
 
 let token: string;

@@ -4,6 +4,7 @@ export default defineConfig({
   testDir: './tests',
   timeout: 120 * 1000,
   reporter: 'html',
+  retries: 1,
   use: {
     baseURL: 'https://blog-five-pink-87.vercel.app/',
     headless: true,

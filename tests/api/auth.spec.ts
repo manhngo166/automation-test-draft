@@ -1,5 +1,5 @@
 import { test, expect, request } from '@playwright/test';
-import { StaticVariables } from '~/helpers/staticVariables';
+import { StaticVariables } from '~/constants';
 import auth from '~/pages/api/auth';
 
 let email: string;

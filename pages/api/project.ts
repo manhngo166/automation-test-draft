@@ -1,6 +1,6 @@
 import { expect } from '@playwright/test';
 import { APIRequestContext } from '@playwright/test';
-import { StaticVariables } from '~/helpers/staticVariables';
+import { StaticVariables } from '~/constants';
 
 class project {
   async getAllProject(request: APIRequestContext, token: string) {

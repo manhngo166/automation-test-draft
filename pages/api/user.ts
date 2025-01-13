@@ -1,5 +1,5 @@
 import { test, expect, request, APIRequestContext } from '@playwright/test';
-import { StaticVariables } from '../../helpers/staticVariables';
+import { StaticVariables } from '~/constants';
 
 class user {
   async getAllUsers(request: APIRequestContext, token: string) {
