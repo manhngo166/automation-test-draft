@@ -19,7 +19,7 @@ export const StaticVariables = {
   completedStatus: 'COMPLETED',
   adminRole: 'admin',
   managerRole: 'manager',
-  contributorRole:'contributor',
-  projectId: "05124e41-b36f-452c-b630-775332133b1c",
-  userId: "6f15f979-0a25-46c6-ba1c-a1ddf59a3e97",
+  contributorRole: 'contributor',
+  projectId: '05124e41-b36f-452c-b630-775332133b1c',
+  userId: '6f15f979-0a25-46c6-ba1c-a1ddf59a3e97',
 };

@@ -46,7 +46,7 @@ class CorePage {
       response = await this.page.waitForResponse((response) => response.url().match(path) && response.status() === 200);
     } else {
       response = await this.page.waitForResponse(
-        (response) => response.url().includes(path) && response.status() === 200
+        (response) => response.url().includes(path) && response.status() === 200,
       );
     }
     return await response.json();

@@ -1,6 +1,6 @@
 import { Locator, Page } from '@playwright/test';
 import { ETheme } from '~/constants';
-import CorePage from 'pages/ui/core'
+import CorePage from 'pages/ui/core';
 
 class BasePage extends CorePage {
   readonly headerElement: Locator;
