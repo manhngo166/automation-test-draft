@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { PAGE_TITLE } from '~/constants';
-import HomePage from '~/pages/homePage';
+import HomePage from '~/pages/ui/homePage';
 
 const path = '/';
 

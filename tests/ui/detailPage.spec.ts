@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import DetailPage from '~/pages/detailPage';
+import DetailPage from '~/pages/ui/detailPage';
 
 const path = '/post/the-impact-of-technology-on-the-workplace-how-technology-is-changing-1734887716925';
 const pathCommentEndpoint = 'api/comment/get-all-comment-blog';
