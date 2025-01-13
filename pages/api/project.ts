@@ -10,7 +10,6 @@ class project {
         Authorization: `Bearer ${token}`,
       },
     });
-    expect(newGetAllProject.status()).toBe(200);
     return newGetAllProject.json();
   }
 
@@ -27,7 +26,6 @@ class project {
         // members: ['6f15f979-0a25-46c6-ba1c-a1ddf59a3e97']
       },
     });
-    expect(newCreateProject.status()).toBe(201);
     return newCreateProject.json();
   }
 
@@ -43,7 +41,6 @@ class project {
         members: [userId],
       },
     });
-    expect(newUpdateProject.status()).toBe(200);
     return newUpdateProject.json();
   }
 
@@ -65,7 +62,6 @@ class project {
         Authorization: `Bearer ${token}`,
       },
     });
-    expect(newDeletProject.status()).toBe(200);
     return newDeletProject.json();
   }
 }

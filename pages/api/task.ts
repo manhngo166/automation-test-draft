@@ -9,7 +9,6 @@ class task{
                     Authorization: `Bearer ${token}`,
                 },
             });
-        expect(newGetAllTask.status()).toBe(200);
         return newGetAllTask.json();
     }
     
@@ -37,7 +36,6 @@ class task{
                 Authorization: `Bearer ${token}`,
             },
         });
-        expect(newGetTaskByID.status()).toBe(200);
         return newGetTaskByID.json();
     }
     

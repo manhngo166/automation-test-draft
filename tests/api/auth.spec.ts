@@ -10,7 +10,7 @@ let changedEmail = 'changedEmail@autotestmail.com'
 let token: string;
 let token1: string;
     test.describe('Common - Auth tests', () => {
-        test('User register', async () => {
+        test('User register successfully', async () => {
             const newRegister = await request.newContext();
             let registerResponse = await auth.register(newRegister); 
             expect(registerResponse).toHaveProperty('data');
@@ -18,7 +18,7 @@ let token1: string;
             await newRegister.dispose();
         });
 
-        test('User login', async () => {
+        test('User login successfully', async () => {
             const newlogin = await request.newContext();
             let loginResponse = await auth.login(newlogin, email, password); 
             expect(loginResponse.data).toHaveProperty('token');
@@ -27,7 +27,7 @@ let token1: string;
     })
     
     test.describe('Admin - Auth tests', () => {
-        test('Admin - Reset password', async () => {
+        test('Admin - Reset password successfully', async () => {
             const newlogin = await request.newContext();
             let loginResponse = await auth.login(newlogin, StaticVariables.emailAdmin_1, StaticVariables.passwordAdmin_1); 
             expect(loginResponse.data).toHaveProperty('token');
@@ -53,7 +53,7 @@ let token1: string;
             await newResetPw1.dispose();
         });
 
-        test('Admin - Change email', async () => {
+        test('Admin - Change email successfully', async () => {
             const newlogin = await request.newContext();
             let loginResponse = await auth.login(newlogin, StaticVariables.emailAdmin_1, StaticVariables.passwordAdmin_1); 
             expect(loginResponse.data).toHaveProperty('token');
@@ -79,7 +79,7 @@ let token1: string;
     });
 
     test.describe('Manager - Auth tests', () => {
-        test('Manager - Reset password', async () => {
+        test('Manager - Reset password successfully', async () => {
             const newlogin = await request.newContext();
             let loginResponse = await auth.login(newlogin, StaticVariables.emailManager, StaticVariables.passwordManager); 
             expect(loginResponse.data).toHaveProperty('token');
@@ -105,7 +105,7 @@ let token1: string;
             await newResetPw1.dispose();
         });
 
-        test('Manager - Change email', async () => {
+        test('Manager - Change email successfully', async () => {
             const newlogin = await request.newContext();
             let loginResponse = await auth.login(newlogin, StaticVariables.emailManager, StaticVariables.passwordManager); 
             expect(loginResponse.data).toHaveProperty('token');
@@ -131,7 +131,7 @@ let token1: string;
     })
 
     test.describe('Contributor - Auth tests', () => {
-        test('Contributor - Reset password', async () => {
+        test('Contributor - Reset password successfully', async () => {
             const newlogin = await request.newContext();
             let loginResponse = await auth.login(newlogin, StaticVariables.emailContributor, StaticVariables.passwordContributor); 
             expect(loginResponse.data).toHaveProperty('token');
@@ -157,7 +157,7 @@ let token1: string;
             await newResetPw1.dispose();
         });
 
-        test('Contributor - Change email', async () => {
+        test('Contributor - Change email successfully', async () => {
             const newlogin = await request.newContext();
             let loginResponse = await auth.login(newlogin, StaticVariables.emailContributor, StaticVariables.passwordContributor); 
             expect(loginResponse.data).toHaveProperty('token');

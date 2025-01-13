@@ -22,21 +22,21 @@ test.describe('Admin - User tests', () => {
         await newlogin.dispose();
     })
 
-    test('Admin - Get all user', async () => {
+    test('Admin - Get all user successfully', async () => {
         const newGetAllUser = await request.newContext();
         let getAllUserResponse = await user.getAllUsers(newGetAllUser, token); 
         expect(getAllUserResponse).toHaveProperty('data');
         await newGetAllUser.dispose();
     });
 
-    test('Admin - Get User by ID', async () => {
+    test('Admin - Get User by ID successfully', async () => {
         const newGetUserById = await request.newContext();
         let getUserByIdResponse = await user.getUserById(newGetUserById, token, adminUserId); 
         expect(getUserByIdResponse.data.id).toBe(adminUserId);
         await newGetUserById.dispose();
     });
 
-    test('Admin - Assign role to user', async () => {
+    test('Admin - Assign role to user successfully', async () => {
         const newAssignRole = await request.newContext();
         let assignRoleResponse = await user.assigRoleToUser(newAssignRole, token, userIdToAssignRole, managerRole); 
         expect(assignRoleResponse.data.id).toBe(userIdToAssignRole);
@@ -55,21 +55,21 @@ test.describe('Manager - User tests', () => {
         await newlogin.dispose();
     })
 
-    test('Manager - Get all user', async () => {
+    test('Manager - Get all user - Forbidden', async () => {
         const newGetAllUser = await request.newContext();
         let getAllUserResponse = await user.getAllUsers(newGetAllUser, token); 
         expect(getAllUserResponse.statusCode).toBe(403);
         await newGetAllUser.dispose();
     });
 
-    test('Manager - Get User by ID', async () => {
+    test('Manager - Get User by ID - Forbidden', async () => {
         const newGetUserById = await request.newContext();
         let getUserByIdResponse = await user.getUserById(newGetUserById, token, adminUserId);
         expect(getUserByIdResponse.statusCode).toBe(403);
         await newGetUserById.dispose();
     });
 
-    test('Manager - Assign role to user', async () => {
+    test('Manager - Assign role to user - Forbidden', async () => {
         const newAssignRole = await request.newContext();
         let assignRoleResponse = await user.assigRoleToUser(newAssignRole, token, userIdToAssignRole, managerRole);
         expect(assignRoleResponse.statusCode).toBe(403);
@@ -87,21 +87,21 @@ test.describe('Contributor - User tests', () => {
         await newlogin.dispose();
     })
 
-    test('Contributor - Get all user', async () => {
+    test('Contributor - Get all user - Forbidden', async () => {
         const newGetAllUser = await request.newContext();
         let getAllUserResponse = await user.getAllUsers(newGetAllUser, token); 
         expect(getAllUserResponse.statusCode).toBe(403);
         await newGetAllUser.dispose();
     });
 
-    test('Contributor - Get User by ID', async () => {
+    test('Contributor - Get User by ID - Forbidden', async () => {
         const newGetUserById = await request.newContext();
         let getUserByIdResponse = await user.getUserById(newGetUserById, token, adminUserId); 
         expect(getUserByIdResponse.statusCode).toBe(403);
         await newGetUserById.dispose();
     });
     
-    test('Contributor - Assign role to user', async () => {
+    test('Contributor - Assign role to user - Forbidden', async () => {
         const newAssignRole = await request.newContext();
         let assignRoleResponse = await user.assigRoleToUser(newAssignRole, token, userIdToAssignRole, managerRole); 
         expect(assignRoleResponse.statusCode).toBe(403);

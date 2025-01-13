@@ -17,7 +17,7 @@ test.describe('Admin - Project test', () => {
     });
     let createdProjectId: string;
     test.beforeEach('Create Project data to test', async ({}, testInfo) => {
-        if (testInfo.title === 'Create project') {
+        if (testInfo.title === 'Admin - Create project successfully') {
             console.log('Skip setup for Create project test case');
             return;
         }
@@ -27,7 +27,7 @@ test.describe('Admin - Project test', () => {
         await newCreateProject.dispose();
     })
     test.afterEach('Delete created Project data', async ({}, testInfo) => {
-        if(testInfo.title === 'Delete project' || testInfo.title === 'Create project') {
+        if(testInfo.title === 'Admin - Delete project successfully' || testInfo.title === 'Admin - Create project successfully') {
             console.log('Skip cleanup data Delete project test case');
             return;
         }
@@ -36,21 +36,21 @@ test.describe('Admin - Project test', () => {
         await newDeleteProject.dispose();
     })
 
-    test('Get all projects', async() => {
+    test('Admin - Get all projects successfully', async() => {
         const newGetAllProject = await request.newContext();
         let getAllProjectResponse = await project.getAllProject(newGetAllProject, token);
         expect(getAllProjectResponse).toHaveProperty('data');
         await newGetAllProject.dispose();
     });
 
-    test('Create project', async() => {
+    test('Admin - Create project successfully', async() => {
         const newCreateProject = await request.newContext();
         let createProjectResponse = await project.createProject(newCreateProject, token, userId);
         expect(createProjectResponse).toHaveProperty('data');
         await newCreateProject.dispose();
     });
 
-    test('Update project', async() => {
+    test('Admin - Update project successfully', async() => {
         const newUpdateProject = await request.newContext();
         let updateProjectResponse = await project.updateProject(newUpdateProject, token, userIdUpdated, createdProjectId);
         expect(updateProjectResponse).toHaveProperty('data');
@@ -60,7 +60,7 @@ test.describe('Admin - Project test', () => {
         await newUpdateProject.dispose();
     });
 
-    test('Delete project', async() => {
+    test('Admin - Delete project successfully', async() => {
         const newDeleteProject = await request.newContext();
         let deleteProjectResponse = await project.deleteProject(newDeleteProject, token, createdProjectId);
         await newDeleteProject.dispose();
@@ -69,7 +69,7 @@ test.describe('Admin - Project test', () => {
         expect(getProjectById.data).not.toHaveProperty('name');
     });
 
-    test('Get project by Id', async() => {
+    test('Admin - Get project by Id successfully', async() => {
         const newGetProjectById = await request.newContext();
         let getProjectById = await project.getProjectById(newGetProjectById, token, createdProjectId)
         expect(getProjectById.data.id).toBe(createdProjectId);
@@ -77,30 +77,60 @@ test.describe('Admin - Project test', () => {
 })
 
 test.describe('Contributor - Project test', () => {
-    test.beforeAll('Admin login', async () => {
-      const newLogin = await request.newContext();
-      await auth.login(newLogin, StaticVariables.emailAdmin, StaticVariables.passwordAdmin);
-      token = auth.token;
-      userId = auth.userid;
-      await newLogin.dispose();
-    });
     let createdProjectId: string;
-    test.beforeEach('Create Project data to test', async ({}, testInfo) => {
+    test.beforeAll('Admin login', async () => {
+        const newLogin = await request.newContext();
+        await auth.login(newLogin, StaticVariables.emailAdmin, StaticVariables.passwordAdmin);
+        token = auth.token;
+        userId = auth.userid;
+        await newLogin.dispose();
+        
         const newCreateProject = await request.newContext();
         let createProjectResponse = await project.createProject(newCreateProject, token, userId);
         createdProjectId = await createProjectResponse.data.id;
         await newCreateProject.dispose();
-    })
-
-    test('Contributor - Get project by Id', async() => {
+    });
+    test.beforeEach('Contributor login', async () => {
         const newLogin = await request.newContext();
         await auth.login(newLogin, StaticVariables.emailContributor, StaticVariables.passwordContributor);
         token = auth.token;
         userId = auth.userid;
         await newLogin.dispose();
+    })
+
+    test('Contributor - Get project by Id successfully', async() => {
         const newGetProjectById = await request.newContext();
         let getProjectById = await project.getProjectById(newGetProjectById, token, createdProjectId)
         expect(getProjectById.data.id).toBe(createdProjectId);
+        await newGetProjectById.dispose();
+    });
+
+    test('Contributor - Get all projects - Forbidden', async() => {
+        const newGetAllProject = await request.newContext();
+        let getAllProjectResponse = await project.getAllProject(newGetAllProject, token);
+        expect(getAllProjectResponse.statusCode).toBe(403);
+        await newGetAllProject.dispose();
+    });
+
+    test('Contributor - Create project - Forbidden', async() => {
+        const newCreateProject = await request.newContext();
+        let createProjectResponse = await project.createProject(newCreateProject, token, userId);
+        expect(createProjectResponse.statusCode).toBe(403);
+        await newCreateProject.dispose();
+    });
+
+    test('Contributor - Update project - Forbidden', async() => {
+        const newUpdateProject = await request.newContext();
+        let updateProjectResponse = await project.updateProject(newUpdateProject, token, userIdUpdated, createdProjectId);
+        expect(updateProjectResponse.statusCode).toBe(403);
+        await newUpdateProject.dispose();
+    });
+
+    test('Contributor - Delete project - Forbidden', async() => {
+        const newDeleteProject = await request.newContext();
+        let deleteProjectResponse = await project.deleteProject(newDeleteProject, token, createdProjectId);
+        expect(deleteProjectResponse.statusCode).toBe(403);
+        await newDeleteProject.dispose();
     });
 })
 
@@ -114,7 +144,7 @@ test.describe('Manager - Project test', () => {
     });
     let createdProjectId: string;
     test.beforeEach('Create Project data to test', async ({}, testInfo) => {
-        if (testInfo.title === 'Manager - Create project') {
+        if (testInfo.title === 'Manager - Create project successfully') {
             console.log('Skip setup for Create project test case');
             return;
         }
@@ -124,7 +154,7 @@ test.describe('Manager - Project test', () => {
         await newCreateProject.dispose();
     })
     test.afterEach('Delete created Project data', async ({}, testInfo) => {
-        if(testInfo.title === 'Manager - Delete project' || testInfo.title === 'Manager - Create project') {
+        if(testInfo.title === 'Manager - Delete project successfully' || testInfo.title === 'Manager - Create project successfully') {
             console.log('Skip cleanup data Delete project test case');
             return;
         }
@@ -133,21 +163,21 @@ test.describe('Manager - Project test', () => {
         await newDeleteProject.dispose();
     })
 
-    test('Manager - Get all projects', async() => {
+    test('Manager - Get all projects successfully', async() => {
         const newGetAllProject = await request.newContext();
         let getAllProjectResponse = await project.getAllProject(newGetAllProject, token);
         expect(getAllProjectResponse).toHaveProperty('data');
         await newGetAllProject.dispose();
     });
 
-    test('Manager - Create project', async() => {
+    test('Manager - Create project successfully', async() => {
         const newCreateProject = await request.newContext();
         let createProjectResponse = await project.createProject(newCreateProject, token, userId);
         expect(createProjectResponse).toHaveProperty('data');
         await newCreateProject.dispose();
     });
 
-    test('Manager - Update project', async() => {
+    test('Manager - Update project successfully', async() => {
         const newUpdateProject = await request.newContext();
         let updateProjectResponse = await project.updateProject(newUpdateProject, token, userIdUpdated, createdProjectId);
         expect(updateProjectResponse).toHaveProperty('data');
@@ -157,7 +187,7 @@ test.describe('Manager - Project test', () => {
         await newUpdateProject.dispose();
     });
 
-    test('Manager - Delete project', async() => {
+    test('Manager - Delete project successfully', async() => {
         const newDeleteProject = await request.newContext();
         let deleteProjectResponse = await project.deleteProject(newDeleteProject, token, createdProjectId);
         await newDeleteProject.dispose();
@@ -166,7 +196,7 @@ test.describe('Manager - Project test', () => {
         expect(getProjectById.data).not.toHaveProperty('name');
     });
 
-    test('Manager - Get project by Id', async() => {
+    test('Manager - Get project by Id successfully', async() => {
         const newGetProjectById = await request.newContext();
         let getProjectById = await project.getProjectById(newGetProjectById, token, createdProjectId)
         expect(getProjectById.data.id).toBe(createdProjectId);

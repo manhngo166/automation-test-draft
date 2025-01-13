@@ -18,7 +18,7 @@ test.describe('Admin - Task test', () => {
     });
     let createdTaskId: string;
     test.beforeEach('Create Task data to test', async ({}, testInfo) => {
-        if (testInfo.title === 'Create task') {
+        if (testInfo.title === 'Admin - Create task successfully') {
             console.log('Skip setup for Create tast test case');
             return;
         }
@@ -28,7 +28,7 @@ test.describe('Admin - Task test', () => {
         createdTaskId = getCreateTaskResponse.data.id;
     });
     test.afterEach('Delete created Task data', async ({}, testInfo) => {
-        if(testInfo.title === 'Delete task' || testInfo.title === 'Create task') {
+        if(testInfo.title === 'Admin - Delete task successfully' || testInfo.title === 'Admin - Create task successfully') {
             console.log('Skip cleanup data Delete tast test case');
             return;
         }
@@ -38,13 +38,13 @@ test.describe('Admin - Task test', () => {
         await newDeleteTask.dispose();
     });
 
-    test('Admin - Get all task', async () => {
+    test('Admin - Get all task successfully', async () => {
         const newGetAllTask = await request.newContext();
         let getAllTaskResponse = await task.getAllTask(newGetAllTask, token); 
         expect(getAllTaskResponse).toHaveProperty('data');
         await newGetAllTask.dispose();
     });
-    test('Admin - Create task', async () => {
+    test('Admin - Create task successfully', async () => {
         const newCreateTask = await request.newContext();
         let getCreateTaskResponse = await task.createTask(newCreateTask, token, StaticVariables.projectId, StaticVariables.userId);
         expect(getCreateTaskResponse.data).toHaveProperty('title');
@@ -52,7 +52,7 @@ test.describe('Admin - Task test', () => {
         await newCreateTask.dispose();
     });
 
-    test('Admin - Update task', async () => {
+    test('Admin - Update task successfully', async () => {
         const newUpdateTask = await request.newContext();
         let getUpdateTaskResponse = await task.updateTask(newUpdateTask, token, createdTaskId);
         expect(getUpdateTaskResponse.data.title).toBe(StaticVariables.updatedTaskTitle);
@@ -61,14 +61,14 @@ test.describe('Admin - Task test', () => {
         await newUpdateTask.dispose();
     });
 
-    test('Admin - Get a task by ID', async () => {
+    test('Admin - Get a task by ID successfully', async () => {
         const newGetTask = await request.newContext();
         let getTaskResponse = await task.getTaskById(newGetTask, token, createdTaskId); 
         expect(getTaskResponse.data.id).toBe(createdTaskId);
         await newGetTask.dispose();
     });
 
-    test('Admin - Delete task', async () => {
+    test('Admin - Delete task successfully', async () => {
         const newDeleteTask = await request.newContext();
         let getDeleteTaskResponse = await task.deleteTask(newDeleteTask, token, createdTaskId); 
         await newDeleteTask.dispose();
@@ -88,7 +88,7 @@ test.describe('Contributor - Task test', () => {
         await newLogin.dispose();
       });
     test.beforeEach('Create Task data to test', async ({}, testInfo) => {
-        if (testInfo.title === 'Contributor - Create task') {
+        if (testInfo.title === 'Contributor - Create task successfully') {
             console.log('Skip setup for Create tast test case');
             return;
         }
@@ -97,7 +97,7 @@ test.describe('Contributor - Task test', () => {
         createdTaskId = getCreateTaskResponse.data.id;
     });
     test.afterEach('Delete created Task data', async ({}, testInfo) => {
-        if(testInfo.title === 'Contributor - Delete task' || testInfo.title === 'Contributor - Create task') {
+        if(testInfo.title === 'Contributor - Create task successfully') {
             console.log('Skip cleanup data Delete tast test case');
             return;
         }
@@ -105,14 +105,14 @@ test.describe('Contributor - Task test', () => {
         let getDeleteTaskResponse = await task.deleteTask(newDeleteTask, token, createdTaskId); 
         await newDeleteTask.dispose();
     });
-    test('Contributor - Get all task', async () => {
+    test('Contributor - Get all task successfully', async () => {
         const newGetAllTask = await request.newContext();
         let getAllTaskResponse = await task.getAllTask(newGetAllTask, token); 
         expect(getAllTaskResponse).toHaveProperty('data');
         await newGetAllTask.dispose();
     });
 
-    test('Contributor - Create task', async () => {
+    test('Contributor - Create task successfully', async () => {
         const newCreateTask = await request.newContext();
         let getCreateTaskResponse = await task.createTask(newCreateTask, token, StaticVariables.projectId, StaticVariables.userId);
         expect(getCreateTaskResponse.data).toHaveProperty('title');
@@ -120,7 +120,7 @@ test.describe('Contributor - Task test', () => {
         await newCreateTask.dispose();
     });
 
-    test('Contributor - Update task', async () => {
+    test('Contributor - Update task successfully', async () => {
         // Update task
         const newUpdateTask = await request.newContext();
         let getUpdateTaskResponse = await task.updateTask(newUpdateTask, token, createdTaskId);
@@ -130,7 +130,7 @@ test.describe('Contributor - Task test', () => {
         await newUpdateTask.dispose();
     });
 
-    test('Contributor - Assign task', async () => {
+    test('Contributor - Assign task successfully', async () => {
         // Update task
         const newUpdateTask = await request.newContext();
         let getUpdateTaskResponse = await task.updateTask(newUpdateTask, token, createdTaskId);
@@ -140,7 +140,7 @@ test.describe('Contributor - Task test', () => {
         await newUpdateTask.dispose();
     });
 
-    test('Contributor - Get a task by ID', async () => {
+    test('Contributor - Get a task by ID successfully', async () => {
         // Get deleted task
         const newGetTask = await request.newContext();
         let getTaskResponse = await task.getTaskById(newGetTask, token, createdTaskId); 
@@ -148,7 +148,7 @@ test.describe('Contributor - Task test', () => {
         await newGetTask.dispose();
     });
 
-    test('Contributor - Delete task', async () => {
+    test('Contributor - Delete task - Forbidden', async () => {
         const newDeleteTask = await request.newContext();
         let deleteTaskResponse = await task.deleteTask(newDeleteTask, token, createdTaskId);
         expect(deleteTaskResponse.statusCode).toBe('403'); 
@@ -166,7 +166,7 @@ test.describe('Manager - Task test', () => {
         await newLogin.dispose();
       });
     test.beforeEach('Create Task data to test', async ({}, testInfo) => {
-        if (testInfo.title === 'Manager - Create task') {
+        if (testInfo.title === 'Manager - Create task successfully') {
             console.log('Skip setup for Create tast test case');
             return;
         }
@@ -175,7 +175,7 @@ test.describe('Manager - Task test', () => {
         createdTaskId = getCreateTaskResponse.data.id;
     });
     test.afterEach('Delete created Task data', async ({}, testInfo) => {
-        if(testInfo.title === 'Manager - Delete task' || testInfo.title === 'Manager - Create task') {
+        if(testInfo.title === 'Manager - Create task successfully') {
             console.log('Skip cleanup data Delete tast test case');
             return;
         }
@@ -183,14 +183,14 @@ test.describe('Manager - Task test', () => {
         let getDeleteTaskResponse = await task.deleteTask(newDeleteTask, token, createdTaskId); 
         await newDeleteTask.dispose();
     });
-    test('Manager - Get all task', async () => {
+    test('Manager - Get all task - Forbidden', async () => {
         const newGetAllTask = await request.newContext();
         let getAllTaskResponse = await task.getAllTask(newGetAllTask, token); 
-        expect(getAllTaskResponse).toHaveProperty('data');
+        expect(getAllTaskResponse.statusCode).toBe(403);
         await newGetAllTask.dispose();
     });
 
-    test('Manager - Create task', async () => {
+    test('Manager - Create task successfully', async () => {
         const newCreateTask = await request.newContext();
         let getCreateTaskResponse = await task.createTask(newCreateTask, token, StaticVariables.projectId, StaticVariables.userId);
         expect(getCreateTaskResponse.data).toHaveProperty('title');
@@ -198,7 +198,7 @@ test.describe('Manager - Task test', () => {
         await newCreateTask.dispose();
     });
 
-    test('Manager - Update task', async () => {
+    test('Manager - Update task successfully', async () => {
         const newUpdateTask = await request.newContext();
         let getUpdateTaskResponse = await task.updateTask(newUpdateTask, token, createdTaskId);
         expect(getUpdateTaskResponse.data.title).toBe(StaticVariables.updatedTaskTitle);
@@ -207,7 +207,7 @@ test.describe('Manager - Task test', () => {
         await newUpdateTask.dispose();
     });
 
-    test('Manager - Assign task', async () => {
+    test('Manager - Assign task successfully', async () => {
         const newUpdateTask = await request.newContext();
         let getUpdateTaskResponse = await task.updateTask(newUpdateTask, token, createdTaskId);
         expect(getUpdateTaskResponse.data.title).toBe(StaticVariables.updatedTaskTitle);
@@ -216,18 +216,17 @@ test.describe('Manager - Task test', () => {
         await newUpdateTask.dispose();
     });
 
-    test('Manager - Get a task by ID', async () => {
+    test('Manager - Get a task by ID - Forbidden', async () => {
         const newGetTask = await request.newContext();
         let getTaskResponse = await task.getTaskById(newGetTask, token, createdTaskId); 
-        expect(getTaskResponse.data.id).toBe(createdTaskId);
+        expect(getTaskResponse.statusCode).toBe(403);
         await newGetTask.dispose();
     });
 
-    test('Manager - Delete task', async () => {
+    test('Manager - Delete task - Forbidden', async () => {
         const newDeleteTask = await request.newContext();
         let deleteTaskResponse = await task.deleteTask(newDeleteTask, token, createdTaskId);
         expect(deleteTaskResponse.statusCode).toBe('403'); 
         await newDeleteTask.dispose();
     });
-
 });
